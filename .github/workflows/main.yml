@@ -30,10 +30,10 @@ jobs:
         rm -rf www/*
         cp ../index.html www/
         
-        # Copy your uploaded icon into the app resources folder safely
+        # Safely copy your uploaded icon right into the main project root 
+        # Cordova automatically looks for icon.png here by default!
         if [ -f "../icon.png" ]; then
-          cp ../icon.png www/icon.png
-          sed -i 's|<widget|<widget><icon src="www/icon.png" />|' config.xml
+          cp ../icon.png icon.png
         fi
         
     - name: Build Android APK
@@ -46,3 +46,4 @@ jobs:
       with:
         name: DailyHorizon-APK
         path: app-project/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+        
