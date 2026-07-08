@@ -1,7 +1,8 @@
-﻿<?xml id="DailyHorizon" version="1.0.0" xmlns="http://cordova.apache.org/ns/1.0" xmlns:cdv="http://cordova.apache.org/ns/1.0/cdv">
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.dailyhorizon.tracker" version="1.0.0" xmlns="http://www.w3.org/1900/xhtml" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Daily Horizon</name>
     <description>Your Mindful Vestibular Tracker</description>
-    <author email="dev@dailyhorizon.com" href="http://cordova.io">Daily Horizon Developer</author>
+    <author email="dev@dailyhorizon.com">Daily Horizon Developer</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -10,4 +11,4 @@
     <icon src="icon.png" />
     
     <preference name="loglevel" value="DEBUG" />
-</xml>
+</widget>
