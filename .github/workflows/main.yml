@@ -30,6 +30,12 @@ jobs:
         rm -rf www/*
         cp ../index.html www/
         
+        # Copy your uploaded icon into the app resources folder safely
+        if [ -f "../icon.png" ]; then
+          cp ../icon.png www/icon.png
+          sed -i 's|<widget|<widget><icon src="www/icon.png" />|' config.xml
+        fi
+        
     - name: Build Android APK
       run: |
         cd app-project
