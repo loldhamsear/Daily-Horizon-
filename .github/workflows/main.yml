@@ -13,23 +13,31 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
+    - name: Set up Java
+      uses: actions/setup-java@v4
       with:
-        node-on: '20'
+        distribution: 'temurin'
+        java-version: '17'
 
-    - name: Install Bubblewrap
-      run: npm install -g @bubblewrap/cli
+    - name: Install Cordova
+      run: npm install -g cordova
 
-    - name: Initialize Web APK
+    - name: Create Mobile Project
       run: |
-        bubblewrap init --manifest=manifest.json --meta=none --output=app-project
+        cordova create app-project com.dailyhorizon.tracker DailyHorizon
         cd app-project
-        bubblewrap build
+        cordova platform add android
+        rm -rf www/*
+        cp ../index.html www/
+        
+    - name: Build Android APK
+      run: |
+        cd app-project
+        cordova build android --no-telemetry --device
 
-    - name: Upload APK Artifact
+    - name: Upload Finished APK
       uses: actions/upload-artifact@v4
       with:
         name: DailyHorizon-APK
-        path: app-project/*.apk
+        path: app-project/platforms/android/app/build/outputs/apk/debug/app-debug.apk
         
