@@ -1,0 +1,423 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Horizon</title>
+    <style>
+        body {
+            background-color: #0d1b2a;
+            color: #e0e1dd;
+            font-family: sans-serif;
+            padding: 20px;
+            margin: 0;
+            line-height: 1.5;
+        }
+        h1 {
+            color: #74a4bc;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #a3b18a;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        h2 {
+            color: #74a4bc;
+            font-size: 20px;
+            border-bottom: 1px solid #1b263b;
+            padding-bottom: 5px;
+            margin-top: 25px;
+        }
+        .checkbox-group, .balance-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        label {
+            background-color: #1b263b;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        input[type="checkbox"], input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            accent-color: #74a4bc;
+            flex-shrink: 0;
+        }
+        /* Style for the small text boxes next to 'Other' */
+        .inline-text-input {
+            background-color: #0d1b2a;
+            border: 1px solid #415a77;
+            color: #e0e1dd;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-left: 10px;
+            flex-grow: 1;
+            box-sizing: border-box;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            background-color: #1b263b;
+            border: 1px solid #415a77;
+            color: #e0e1dd;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        .save-btn {
+            background-color: #415a77;
+            color: #e0e1dd;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 40px;
+            cursor: pointer;
+        }
+        .export-btn {
+            background-color: #a3b18a;
+            color: #0d1b2a;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        
+        .doctor-report-box {
+            display: none; 
+            background-color: #1b263b;
+            border: 2px solid #a3b18a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .doctor-report-box p {
+            margin-top: 0;
+            font-size: 14px;
+            color: #a3b18a;
+        }
+        .doctor-textarea {
+            width: 100%;
+            height: 150px;
+            background-color: #0d1b2a;
+            color: #e0e1dd;
+            border: 1px solid #415a77;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .history-card {
+            background-color: #1b263b;
+            border-left: 5px solid #74a4bc;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #415a77;
+            padding-bottom: 5px;
+        }
+        .history-date {
+            font-weight: bold;
+            color: #a3b18a;
+            font-size: 14px;
+        }
+        .history-balance {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .history-details {
+            font-size: 14px;
+            color: #cbc0d3;
+        }
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+
+    <h1>Daily Horizon</h1>
+    <div class="subtitle">Your Mindful Vestibular Tracker</div>
+
+
+    <h2>How is your balance today?</h2>
+    <div class="balance-group">
+        <label><input type="radio" name="balance" value="🟢 Steady" checked> 🟢 Steady</label>
+        <label><input type="radio" name="balance" value="🟡 Rocking / Unsteady"> 🟡 Rocking / Unsteady</label>
+        <label><input type="radio" name="balance" value="🔴 Spinning / Severe"> 🔴 Spinning / Severe</label>
+    </div>
+
+
+    <h2>Symptoms</h2>
+    <div class="checkbox-group" id="symptomsGroup">
+        <label><input type="checkbox" value="Dizziness / Vertigo"> Dizziness / Vertigo</label>
+        <label><input type="checkbox" value="Brain fog"> Brain fog</label>
+        <label><input type="checkbox" value="Fatigue"> Fatigue</label>
+        <label><input type="checkbox" value="Sound sensitivity"> Sound sensitivity</label>
+        <label><input type="checkbox" value="Light / Screen sensitivity"> Light / Screen sensitivity</label>
+        <label><input type="checkbox" value="Tingling"> Tingling</label>
+        <label><input type="checkbox" value="Numbness / Weakness"> Numbness / Weakness</label>
+        <label><input type="checkbox" value="Slurred speech"> Slurred speech</label>
+        <label><input type="checkbox" value="Head pressure or pain"> Head pressure or pain</label>
+        <label><input type="checkbox" value="Nausea"> Nausea</label>
+        
+        <!-- Modified Other Option with Text Box -->
+        <label onclick="event.stopPropagation();">
+            <input type="checkbox" id="otherSymptomCheck" value="Other"> Other: 
+            <input type="text" id="otherSymptomText" class="inline-text-input" placeholder="Type symptom here..." onclick="document.getElementById('otherSymptomCheck').checked = true;">
+        </label>
+    </div>
+
+
+    <h2>Possible Triggers</h2>
+    <div class="checkbox-group" id="triggersGroup">
+        <label><input type="checkbox" value="Weather / Barometric change"> Weather / Barometric change</label>
+        <label><input type="checkbox" value="Poor sleep"> Poor sleep</label>
+        <label><input type="checkbox" value="Stress or anxiety"> Stress or anxiety</label>
+        <label><input type="checkbox" value="Period / Menstrual cycle"> Period / Menstrual cycle</label>
+        <label><input type="checkbox" value="Ovulation"> Ovulation</label>
+        <label><input type="checkbox" value="Bright / Flickering lights"> Bright / Flickering lights</label>
+        <label><input type="checkbox" value="Loud environments"> Loud environments</label>
+        <label><input type="checkbox" value="Skipped a meal / Dehydration"> Skipped a meal / Dehydration</label>
+        <label><input type="checkbox" value="Food or drink trigger"> Food or drink trigger</label>
+        
+        <!-- Modified Other Option with Text Box -->
+        <label onclick="event.stopPropagation();">
+            <input type="checkbox" id="otherTriggerCheck" value="Other"> Other: 
+            <input type="text" id="otherTriggerText" class="inline-text-input" placeholder="Type trigger here..." onclick="document.getElementById('otherTriggerCheck').checked = true;">
+        </label>
+    </div>
+
+
+    <h2>Extra Notes</h2>
+    <textarea id="notes" placeholder="How are you feeling right now?..."></textarea>
+
+
+    <button class="save-btn" onclick="saveCheckIn()">Save Entry</button>
+
+
+    <h2>Your Tracked History</h2>
+    
+    <button class="export-btn" onclick="generateReportForDoctor()">📋 Create Report for Doctor</button>
+    
+    <div class="doctor-report-box" id="reportBox">
+        <p>✨ Tap inside the box below, choose "Select All", and copy it to send to your doctor:</p>
+        <textarea class="doctor-textarea" id="reportTextarea" readonly onclick="this.select()"></textarea>
+    </div>
+    
+    <div class="history-list" id="historyContainer"></div>
+
+
+    <script>
+        let appHistory = [];
+        
+        try {
+            const saved = localStorage.getItem('dailyHorizonHistory');
+            if (saved) {
+                appHistory = JSON.parse(saved);
+            }
+        } catch (e) {
+            console.log("Storage not ready");
+        }
+        
+        displayHistory();
+
+
+        function saveCheckIn() {
+            const now = new Date();
+            const dateString = now.toLocaleDateString('en-GB', { 
+                weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' 
+            }) + ' at ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+
+            const balanceElement = document.querySelector('input[name="balance"]:checked');
+            const balance = balanceElement ? balanceElement.value : "🟢 Steady";
+
+
+            // Process symptoms
+            const symptomCheckboxes = document.querySelectorAll('#symptomsGroup input[type="checkbox"]');
+            let symptoms = [];
+            for (let i = 0; i < symptomCheckboxes.length; i++) {
+                if (symptomCheckboxes[i].checked) {
+                    if (symptomCheckboxes[i].id === 'otherSymptomCheck') {
+                        const customText = document.getElementById('otherSymptomText').value.trim();
+                        symptoms.push(customText ? `Other (${customText})` : 'Other');
+                    } else {
+                        symptoms.push(symptomCheckboxes[i].value);
+                    }
+                }
+            }
+            
+            // Process triggers
+            const triggerCheckboxes = document.querySelectorAll('#triggersGroup input[type="checkbox"]');
+            let triggers = [];
+            for (let i = 0; i < triggerCheckboxes.length; i++) {
+                if (triggerCheckboxes[i].checked) {
+                    if (triggerCheckboxes[i].id === 'otherTriggerCheck') {
+                        const customText = document.getElementById('otherTriggerText').value.trim();
+                        triggers.push(customText ? `Other (${customText})` : 'Other');
+                    } else {
+                        triggers.push(triggerCheckboxes[i].value);
+                    }
+                }
+            }
+
+
+            const notes = document.getElementById('notes').value;
+
+
+            const newLog = {
+                date: dateString,
+                balance: balance,
+                symptoms: symptoms.length > 0 ? symptoms.join(', ') : 'None',
+                triggers: triggers.length > 0 ? triggers.join(', ') : 'None',
+                notes: notes ? notes : 'None'
+            };
+
+
+            appHistory.unshift(newLog);
+            saveToLocalStorage();
+            displayHistory();
+
+
+            // Reset form fields safely
+            document.getElementById('notes').value = '';
+            document.getElementById('otherSymptomText').value = '';
+            document.getElementById('otherTriggerText').value = '';
+            
+            const allBoxes = document.querySelectorAll('input[type="checkbox"]');
+            for (let i = 0; i < allBoxes.length; i++) {
+                allBoxes[i].checked = false;
+            }
+            document.getElementsByName('balance')[0].checked = true;
+            
+            document.getElementById('reportBox').style.display = 'none';
+        }
+
+
+        function deleteEntry(index) {
+            if (confirm("Are you sure you want to delete this entry?")) {
+                appHistory.splice(index, 1);
+                saveToLocalStorage();
+                displayHistory();
+                document.getElementById('reportBox').style.display = 'none';
+            }
+        }
+
+
+        function generateReportForDoctor() {
+            if (appHistory.length === 0) {
+                alert("You don't have any saved entries to make a report yet!");
+                return;
+            }
+
+
+            let textReport = "DAILY HORIZON REPORT\n\n";
+            
+            appHistory.forEach((log, index) => {
+                textReport += `Entry #${appHistory.length - index}\n`;
+                textReport += `Date: ${log.date}\n`;
+                textReport += `Balance Status: ${log.balance}\n`;
+                textReport += `Symptoms: ${log.symptoms}\n`;
+                textReport += `Triggers: ${log.triggers}\n`;
+                textReport += `Notes: ${log.notes}\n`;
+                textReport += `------------------------------------\n\n`;
+            });
+
+
+            const reportBox = document.getElementById('reportBox');
+            const textarea = document.getElementById('reportTextarea');
+            
+            textarea.value = textReport;
+            reportBox.style.display = 'block';
+            
+            reportBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem('dailyHorizonHistory', JSON.stringify(appHistory));
+            } catch (e) {
+                console.log("Could not save");
+            }
+        }
+
+
+        function displayHistory() {
+            const container = document.getElementById('historyContainer');
+            container.innerHTML = ''; 
+
+
+            if (appHistory.length === 0) {
+                container.innerHTML = '<p style="color: #a3b18a; font-style: italic;">No logs saved yet.</p>';
+                return;
+            }
+
+
+            for (let i = 0; i < appHistory.length; i++) {
+                const log = appHistory[i];
+                const card = document.createElement('div');
+                card.className = 'history-card';
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="history-date">${log.date}</div>
+                        <button class="delete-btn" onclick="deleteEntry(${i})">Delete</button>
+                    </div>
+                    <div class="history-balance">Status: ${log.balance}</div>
+                    <div class="history-details">
+                        <strong>Symptoms:</strong> ${log.symptoms}<br>
+                        <strong>Triggers:</strong> ${log.triggers}<br>
+                        <strong>Notes:</strong> ${log.notes}
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+    </script>
+
+
+</body>
+</html>

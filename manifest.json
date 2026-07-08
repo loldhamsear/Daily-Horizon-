@@ -1,0 +1,8 @@
+﻿{
+  "name": "Daily Horizon",
+  "short_name": "Daily Horizon",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d1b2a",
+  "theme_color": "#74a4bc"
+}
