@@ -30,12 +30,6 @@ jobs:
         rm -rf www/*
         cp ../index.html www/
         
-        # Copy the icon into the mobile project structure
-        if [ -f "../icon.svg" ]; then
-          cp ../icon.svg www/icon.svg
-          echo '<icon src="www/icon.svg" />' >> config.xml
-        fi
-        
     - name: Build Android APK
       run: |
         cd app-project
